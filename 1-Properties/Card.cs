@@ -33,33 +33,69 @@ namespace Properties
         {
         }
 
-        // TODO improve
-        public string GetSeed()
+        /// <summary>
+        /// Gets the seed of the card.
+        /// </summary>
+        public string Seed
         {
-            return this.seed;
+            get => this.seed;
         }
 
-        // TODO improve
-        public string GetName()
+        /// <summary>
+        /// Gets the name of the card.
+        /// </summary>
+        public string Name
         {
-            return this.name;
+            get => this.name;
         }
 
-        // TODO improve
-        public int GetOrdinal()
+        /// <summary>
+        /// Gets the ordinal number of the card.
+        /// </summary>
+        public int Ordinal
         {
-            return this.ordinal;
+            get => this.ordinal;
         }
 
         /// <inheritdoc cref="object.ToString"/>
         public override string ToString()
         {
-            // TODO understand string interpolation
-            return $"{this.GetType().Name}(Name={this.GetName()}, Seed={this.GetSeed()}, Ordinal={this.GetOrdinal()})";
+            return $"{this.GetType().Name}(Name={this.name}, Seed={this.seed}, Ordinal={this.ordinal})";
         }
 
-        // TODO generate Equals(object obj)
+        /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
+        public bool Equals(Card card)
+        {
+            return this.name == card.name
+                && this.seed == card.seed
+                && this.ordinal == card.ordinal;
+        }
 
-        // TODO generate GetHashCode()
+        /// <inheritdoc cref="object.Equals(object)"/>
+        public override bool Equals(object obj)
+        {
+            if (obj is null)
+            {
+                return false;
+            }
+
+            if (this == obj)
+            {
+                return true;
+            }
+
+            if (obj.GetType() != this.GetType())
+            {
+                return false;
+            }
+
+            return this.Equals(obj as Card);
+        }
+
+        /// <inheritdoc cref="object.GetHashCode"/>
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(this.name, this.seed, this.ordinal);
+        }
     }
 }
